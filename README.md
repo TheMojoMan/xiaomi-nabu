@@ -26,15 +26,15 @@ Additional thanks to the helpful people at the telegram group "Xiaomi Pad 5 - Li
  - Connect your tablet to your computer with a USB-C cable.
  - Open a terminal window.
  - Install adb and fastboot: `sudo apt install adb android-sdk-platform-tools`. On Windows or Mac: [download here](https://developer.android.com/tools/releases/platform-tools).
- - First you need to shrink the "userdata" partition of your internal drive of the Xiaomi Pad 5 and create two additional partitons named "esp" and "linux" (without quotes). There are several ways to do it. You can e.g. follow this guide [here](https://xdaforums.com/t/resize-internal-storage-on-xiaomi-pad-5-nabu-and-install-another-images.4642670/). 
- - Next, download the root image file for Ubuntu 25.04 and the bootloader. You can find it in the Ubuntu 25.04 folder [here](https://mega.nz/folder/CVMGEAiB#7oazR3wpkKdAH2eZChtRTg). Enter the folder "2025.04.03-Ubuntu 25.04 (Plucky Puffin)".
- - Decompress the file ubuntu-plucky.img.xz: `xz -d ubuntu-plucky.img.xz`. On Windows: Install a suitable app that can decompress .xz files.
+ - First you need to shrink the "userdata" partition of your internal drive of the Xiaomi Pad 5 and create two additional partitons named "esp" and "linux" (without quotes). There are several ways to do it. You can e.g. follow this guide [here](https://xdaforums.com/t/resize-internal-storage-on-xiaomi-pad-5-nabu-and-install-another-images.4642670/). "esp" should be vfat and 1 GB large and "linux" ext4 and at least 20-30 GB large.
+ - Next, download the root image file for Ubuntu 25.04 and the bootloader. You can find them in the "Ubuntu 25.04 (Plucky Puffin)" folder [here](https://mega.nz/folder/CVMGEAiB#7oazR3wpkKdAH2eZChtRTg).
+ - Decompress the file ubuntu-25.04.img.xz: `xz -d ubuntu-25.04.img.xz`. On Windows: Install a suitable app that can decompress .xz files.
  - Enter fastboot (`adb reboot bootloader` or power-on tablet while volume-down key being pressed).
  - Check the active slot: `fastboot getvar current-slot`
    If it prints "a" you need to install the linux bootloader to boot_b, if it prints "b" you need to install the bootloader to boot_a.
  - Delete dtbo: `fastboot erase dtbo_b` (or `fastboot erase dtbo_a`, if you are on slot b).
- - Install Ubuntu root system: `fastboot flash linux ubuntu-plucky.img`
- - Install bootloader: `fastboot flash boot_b boot_linux.img` (or `fastboot flash boot_a boot_linux.img` if you are on slot b)
+ - Install Ubuntu root system: `fastboot flash linux ubuntu-25.04.img`
+ - Install bootloader: `fastboot flash boot_b boot_6.14.11-nabu-tmm_linux.img` (or `fastboot flash boot_a boot_6.14.11-nabu-tmm_linux.img`  if you are on slot b)
  - Change slot to Ubuntu: `fastboot set_active b` (or `fastboot set_active a` if you are on slot b)
  - Reboot: `fastboot reboot`
  - Wait for Ubuntu to boot completely. The output might seem stuck at some point for some seconds. Do not panic. Be patient.
